@@ -11,10 +11,20 @@
         <?php if( $image_url = $singleBuilding->get_thumbnail_url() ) : ?>
             <img src="<?php echo $image_url; ?>" alt="">
         <?php endif; ?>
-        <div class="page-loop__item-badges">
-        <span class="badge">Услуги 0%</span>
-        <span class="badge">Комфорт+</span>
-        </div>
+        <?php if( $badges = $singleBuilding->get_badges() ) : ?>
+            <div class="page-loop__item-badges">
+                <?php foreach( $badges as $badge ) : ?>
+                <span class="badge">
+                    <?php 
+                    echo $badge->title;
+                    if( $badge->value ) {
+                        echo $badge->value;
+                    } 
+                    ?>
+                </span>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
     <div class="page-loop__item-info">
         <h3 class="page-title-h3"><?php $singleBuilding->the_title(); ?></h3>

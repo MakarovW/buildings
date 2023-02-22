@@ -313,8 +313,8 @@ function building_query_modify( $query ) {
     }
 
     $parsed_filter_args = theme_filter_parse_string_args( $filter_query );
-    global $building_filter_args;
-    $building_filter_args = $parsed_filter_args;
+
+    save_theme_filter_global_args( $parsed_filter_args );
 
     if( isset( $parsed_filter_args['housing'] ) ) {
         $tax_query = $query->get( 'tax_query', [] );;
@@ -365,10 +365,22 @@ function building_query_modify( $query ) {
 
     }
 
+    if( isset( $parsed_filter_args['service'] ) && $parsed_filter_args['service'] === true ) {
+        $new_meta_query = array(
+            'key'       => 'building_features_service',
+            'value'     => '0',
+            'compare'   => '='
+        );
+        $meta_query = $query->get( 'meta_query', [] );
+        $meta_query[] = $new_meta_query;
+        $query->set( 'meta_query', $meta_query );
+
+    }
+
     if( is_archive() ) {
-        // todo
+        // todo ?
     } elseif ( is_tax() ) {
-        // todo
+        // todo ?
     }
 
     if( isset( $parsed_filter_args['page'] ) ) {
@@ -414,6 +426,7 @@ function validate_filter_basic_args( $basic_args ) : array {
         'deadline'  => 'string',
         'housing'   => 'termsids',
         'page'      => 'number',
+        'service'   =>  'bool', 
     ];
     $key    = $basic_args[0];
     $values = $basic_args[1];
@@ -453,6 +466,11 @@ function validate_filter_basic_args( $basic_args ) : array {
                     'values' => $simple_validated_values
                 ];
             }
+        }elseif( $validator === 'bool' ) {
+            $resultArgs = [
+                'key'   => $key,
+                'values' => (bool) $values ? $values === true || $values === 'true' : false
+            ];
         }
     }
 
@@ -467,12 +485,22 @@ function buildings_archive_is_last_page() {
     return $current_page >= (int) $wp_query->max_num_pages;
 }
 
+function get_theme_filter_global_args() {
+    global $building_filter_args;
+    return $building_filter_args;
+}
+
+function save_theme_filter_global_args( $global_filter_args ) {
+    global $building_filter_args;
+    $building_filter_args = $global_filter_args;
+    return $building_filter_args;
+}
+
 //ajax theme filter
 add_action( 'wp_ajax_theme_filter', 'theme_filter_callback' );
-add_action( 'wp_ajax_theme_filter_nopriv', 'theme_filter_callback' );
-
+add_action( 'wp_ajax_nopriv_theme_filter', 'theme_filter_callback' );
 function theme_filter_callback() {
-
+    
     add_filter('theme_filter_parse_query_string', function( $default_query_string ) {
         $is_query_exists = isset( $_POST['queryString'] ) && !empty( trim( $_POST['queryString'] ) );
         return $is_query_exists ? $_POST['queryString'] : null;
@@ -483,7 +511,7 @@ function theme_filter_callback() {
          'ajax_buildings'   => true,
     ]);
     
-    global $building_filter_args;
+    $building_filter_args = get_theme_filter_global_args();
     $current_page = $building_filter_args && isset($building_filter_args['page'])
         ? (int) $building_filter_args['page']+1
         : 0;

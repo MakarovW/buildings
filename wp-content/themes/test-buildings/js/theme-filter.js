@@ -3,7 +3,7 @@ $(function(){
     class themeFilterQueryBuilder {
         queryArgs = [];
         queryString = '';
-        queryArgName = 'filter';
+        queryArgName = '';
 
         constructor( queryArgs = [], queryArgName = 'filter' ) {
             this.queryArgs      = queryArgs;
@@ -64,28 +64,28 @@ $(function(){
             return resultArgs;
         }
 
-        getProximityArgs() {
+        getServiceArgs() {
             let resultArgs = [];
-            const proximityless10     = this.filterObject.find('#proximityless10').length     && this.filterObject.find('#proximityless10').is(":checked") ? true : false;
-            const proximityless1020   = this.filterObject.find('#proximityless1020').length   && this.filterObject.find('#proximityless1020').is(":checked") ? true : false;
-            const proximityless2040   = this.filterObject.find('#proximityless2040').length   && this.filterObject.find('#proximityless2040').is(":checked") ? true : false;
-            const proximitylessover40 = this.filterObject.find('#proximitylessover40').length && this.filterObject.find('#proximitylessover40').is(":checked") ? true : false;
-            const proximityany        = this.filterObject.find('#proximityany').length        && this.filterObject.find('#proximityany').is(":checked") ? true : false;
-            
-            if( proximityless10 ) {
-                resultArgs.push('less10');
+            let serviceObject = this.filterObject.find('input#service');
+            if( serviceObject.length && serviceObject.is(":checked") ) {
+                resultArgs.push(true);
             }
-            if( proximityless1020 ) {
-                resultArgs.push('less1020');
-            }
-            if( proximityless2040 ) {
-                resultArgs.push('less2040');
-            }
-            if( proximitylessover40 ) {
-                resultArgs.push('lessover40');
-            }
+            return resultArgs;
+        }
 
-            return proximityany ? [] : resultArgs;
+        getProximityArgs() {
+            const proximities = this.filterObject.find('#proximity input[data-is-proximity=\"1\"]:checked');
+            let resultArgs = [];
+            if( proximities.length ) {
+                let proximitiesArray = [];
+                $(proximities).each(function(i, el) {
+                    proximitiesArray.push($(el).attr('id'));
+                });
+                if( !proximitiesArray.includes( 'any' ) ) {
+                    resultArgs = proximitiesArray;
+                }
+            }
+            return resultArgs;
         }
 
         buildFilterArgs() {
@@ -93,6 +93,7 @@ $(function(){
                     proximity   : this.getProximityArgs(),
                     deadline    : this.getDeadlineArgs(),
                     housing     : this.getHousingArgs(),
+                    service     : this.getServiceArgs(),
                     page        : [ this.currentPage ],
                 };
         }
@@ -101,13 +102,12 @@ $(function(){
             let buildFilterArgs = this.buildFilterArgs();
             this.queryBuilder.setQuery(buildFilterArgs);
             let buildedQueryString = this.queryBuilder.build();
-            this.saveToHistory(buildedQueryString);
             return buildedQueryString;
         }
 
-        saveToHistory( buildedQueryString ) {
+        saveToHistory( buildedQueryString, url, data = null ) {
             if( buildedQueryString != '' ) {
-                window.history.pushState(null, null, buildedQueryString );
+                history.pushState(null, null, window.location.origin + window.location.pathname + buildedQueryString );
             }
         }
 
@@ -116,18 +116,12 @@ $(function(){
             const filter        = e.data.filter;
             filter.currentPage  = 0;
             filter.sendAjax( filter.buildQueryParams(), filter );
-            
-            //console.log( e );
         }
 
         resetFilter( e ) {
             const filter        = e.data.filter;
             filter.currentPage  = 0;
-            filter.queryString  = '';
-            filter.saveToHistory( window.location.origin + window.location.pathname );
-            filter.sendAjax( '', filter) ;
-            
-            //console.log( e );
+            filter.sendAjax( filter.buildQueryParams(), filter );
         }
 
         async showMoreButton( e ) {
@@ -144,6 +138,7 @@ $(function(){
             };
 
             $.post( themeFilterObject.ajaxUrl, data, function( response ) {
+                filter.saveToHistory(queryString, themeFilterObject.ajaxUrl, data);
                 filter.renderBuildings( response, isLoadMore, filter );
             } );
         }
@@ -172,10 +167,15 @@ $(function(){
             }
         }
 
+        refreshPageState() {
+            window.location = location.href;
+        }
+
         constructor() {
             this.filterObject.find('#apply_filter').on('click', { filter: this }, this.applyFilter);
             this.filterObject.find('#reset_filter').on('click', { filter: this }, this.resetFilter);
             this.showMoreObject.on('click', { filter: this }, this.showMoreButton);
+            $(window).on('popstate', this.refreshPageState);
         }
     }
 

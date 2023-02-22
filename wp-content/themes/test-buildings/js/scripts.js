@@ -142,7 +142,7 @@ function init() {
     }
   });
   var proximityCheckboxes = document.querySelectorAll('.proximity input');
-  var proximityAll = document.getElementById('proximityany');
+  var proximityAll = document.getElementById('any');
   [].forEach.call(proximityCheckboxes, function (item) {
     if (proximityAll.checked === true) {
       item.checked = true;

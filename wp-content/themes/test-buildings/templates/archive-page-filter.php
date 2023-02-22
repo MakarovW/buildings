@@ -13,32 +13,32 @@
                 <ul class="proximity">
                 <li>
                     <div class="checkbox">
-                    <input type="checkbox" name="proximityless10" id="proximityless10">
-                    <label for="proximityless10">&lt;10</label>
+                    <input type="checkbox" name="less10" id="less10" data-is-proximity="1">
+                    <label for="less10">&lt;10</label>
                     </div>
                 </li>
                 <li>
                     <div class="checkbox">
-                    <input type="checkbox" name="proximityless1020" id="proximityless1020">
-                    <label for="proximityless1020">10-20</label>
+                    <input type="checkbox" name="less1020" id="less1020" data-is-proximity="1">
+                    <label for="less1020">10-20</label>
                     </div>
                 </li>
                 <li>
                     <div class="checkbox">
-                    <input type="checkbox" name="proximityless2040" id="proximityless2040">
-                    <label for="proximityless2040">20-40</label>
+                    <input type="checkbox" name="less2040" id="less2040" data-is-proximity="1">
+                    <label for="less2040">20-40</label>
                     </div>
                 </li>
                 <li>
                     <div class="checkbox">
-                    <input type="checkbox" name="proximitylessover40" id="proximitylessover40">
-                    <label for="proximitylessover40">40+</label>
+                    <input type="checkbox" name="lessover40" id="lessover40" data-is-proximity="1">
+                    <label for="lessover40">40+</label>
                     </div>
                 </li>
                 <li class="w-100">
                     <div class="checkbox">
-                    <input type="checkbox" name="proximityany" id="proximityany" checked>
-                    <label for="proximityany">Любой</label>
+                    <input type="checkbox" name="any" id="any" data-is-proximity="1" checked>
+                    <label for="any">Любой</label>
                     </div>
                 </li>
                 </ul>

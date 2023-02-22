@@ -3,6 +3,8 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 class SingleBuilding extends BasicPost {
+    
+    use ThemeFormatter;
 
     function get_company_name() {
         return $this->getField( 'building_company' );
@@ -14,6 +16,33 @@ class SingleBuilding extends BasicPost {
 
     function get_metro_list() {
         return $this->getField( 'building_metro_list' );
+    }
+
+    function get_features_service() {
+        return $this->formatFloat( $this->getField( 'building_features_service' ) );
+    }
+
+    function get_badges() {
+        $badges = [];
+        $service = $this->get_features_service();
+        if( $service !== false || $service !== null ) {
+            $badges[] = [
+                'title' => 'Услуги',
+                'value' => ' ' . $service . '%',
+            ];
+        }
+        //todo compele all badges
+        $badges[] = [
+            'title' => 'Комфорт+',
+            'value' => null
+        ];
+
+        if( $badges ) {
+            $badges = array_map(function($element) {
+                return (object) $element;
+            }, $badges);
+        }
+        return $badges;
     }
 
     /* search existed metro with min closeness time */
@@ -99,13 +128,11 @@ class SingleBuilding extends BasicPost {
         return $this->getField( 'building_features_price_group' );
     }
 
-    function get_features_price_rating() {
-        $rating = $this->formatString( $this->getField( 'building_features_price_rating' ) );
+    function get_features_price_rating( $string = true ) {
+        $rating = $string 
+                ? $this->formatString( $this->getField( 'building_features_price_rating' ) )
+                : $this->formatFloat( $this->getField( 'building_features_price_rating' ) );
         return $rating ? $rating : 0;
-    }
-
-    function formatString( $string = '' ) {
-        return (string) str_replace( '.', ',', (string) $string );
     }
 
 }

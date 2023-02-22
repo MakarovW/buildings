@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php get_header(); ?>
 <?php $isLastPage = buildings_archive_is_last_page(); ?>
 	<div class="page-content">
-		<h1 class="visuallyhidden">Новостройки</h1>
+		<h1 class="visuallyhidden"><?php echo get_queried_object()->name; ?></h1>
 		<div class="page-loop__wrapper loop tab-content tab-content__active">
 			<ul class="page-loop with-filter" id="theme-filter-1">
 			<?php if ( have_posts() ) : ?>
