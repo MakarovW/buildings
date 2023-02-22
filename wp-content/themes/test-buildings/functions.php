@@ -88,29 +88,6 @@ function register_buildings_post_type() {
 		'show_admin_column'     => true,
 	] );
 
-	register_taxonomy( 'housing', [ 'buildings' ], [
-		'label'                 => 'Класс жилья',
-		'labels'                => array(
-			'name'              => 'Классы жилья',
-			'singular_name'     => 'Класс жилья',
-			'search_items'      => 'Искать Класс жилья',
-			'all_items'         => 'Все классы жилья',
-			'parent_item'       => 'Родит. Класс жилья',
-			'parent_item_colon' => 'Родит. Класс жилья:',
-			'edit_item'         => 'Ред. Класс жилья',
-			'update_item'       => 'Обновить Класс жилья',
-			'add_new_item'      => 'Добавить Класс жилья',
-			'new_item_name'     => 'Новый Класс жилья',
-			'menu_name'         => 'Класс жилья',
-		),
-		'description'           => 'Классы жилья',
-		'public'                => true,
-		'show_ui'               => true,
-		'show_tagcloud'         => false,
-		'hierarchical'          => true,
-		'show_admin_column'     => true,
-	] );
-
     /* register_taxonomy( 'deadline', [ 'buildings' ], [
 		'label'                 => 'Срок сдачи',
 		'labels'                => array(
