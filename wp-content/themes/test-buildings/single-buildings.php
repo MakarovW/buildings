@@ -34,12 +34,7 @@ $singleBuilding = new SingleBuilding();
 		<span class="badge">Услуги 0%</span>
 		<span class="badge">Комфорт+</span>
 	</div>
-	<a href="#" class="favorites-link favorites-link__add" title="Добавить в Избранное" role="button">
-		<span class="icon-heart">
-		<span class="path1"></span>
-		<span class="path2"></span>
-		</span>
-	</a>
+	<a href="#" class="favorites-link favorites-link__add" title="Добавить в Избранное" role="button"><span class="icon-heart"><span class="path1"></span><span class="path2"></span></span></a>
 	</div>
 	<h2 class="page-title-h1">Характеристики ЖК</h2>
 	<ul class="post-specs">

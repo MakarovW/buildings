@@ -32,7 +32,9 @@ $(function(){
     }
 
     class themeFilter {
-        currentPage = 0;
+        currentPage = themeFilterObject.filterData != undefined && themeFilterObject.filterData.page != undefined && themeFilterObject.filterData.page != null 
+            ? themeFilterObject.filterData.page
+            : 0;
         filterArgs = [];
 
         filterObject    = $('#page-filter');
@@ -69,6 +71,8 @@ $(function(){
             let serviceObject = this.filterObject.find('input#service');
             if( serviceObject.length && serviceObject.is(":checked") ) {
                 resultArgs.push(true);
+            } else {
+                resultArgs.push(false);
             }
             return resultArgs;
         }
@@ -106,9 +110,7 @@ $(function(){
         }
 
         saveToHistory( buildedQueryString, url, data = null ) {
-            if( buildedQueryString != '' ) {
-                history.pushState(null, null, window.location.origin + window.location.pathname + buildedQueryString );
-            }
+            history.pushState(null, null, window.location.origin + window.location.pathname + buildedQueryString );
         }
 
         applyFilter( e ) {

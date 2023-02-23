@@ -1,11 +1,6 @@
 <?php $singleBuilding = new SingleBuilding(); ?>
 <li class="page-loop__item wow animate__animated animate__fadeInUp" data-wow-duration="0.8s">
-    <a href="#" class="favorites-link favorites-link__add" title="Добавить в Избранное" role="button">
-    <span class="icon-heart">
-        <span class="path1"></span>
-        <span class="path2"></span>
-    </span>
-    </a>
+<a href="#" class="favorites-link favorites-link__add" title="Добавить в Избранное" role="button"><span class="icon-heart"><span class="path1"></span><span class="path2"></span></span>
     <a href="<?php echo $singleBuilding->get_post_link(); ?>" class="page-loop__item-link">
     <div class="page-loop__item-image">
         <?php if( $image_url = $singleBuilding->get_thumbnail_url() ) : ?>

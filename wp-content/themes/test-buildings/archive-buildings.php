@@ -1,11 +1,9 @@
-
 <?php 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-?>
-<?php get_header(); ?>
-<?php $isLastPage = buildings_archive_is_last_page(); ?>
+get_header(); 
+$isLastPage = buildings_archive_is_last_page(); ?>
 	<div class="page-content">
 		<h1 class="visuallyhidden"><?php echo get_queried_object()->name; ?></h1>
 		<div class="page-loop__wrapper loop tab-content tab-content__active">
