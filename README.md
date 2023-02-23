@@ -19,3 +19,9 @@ $table_prefix  = 'bl_';
  */
 define('WP_DEBUG', false);
 ```
+
+# Login & Pwd
+```
+root
+bU)ptEO&qDsS^t&JbE
+```

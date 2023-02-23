@@ -69,5 +69,6 @@ ehthumbs.db
 *.rar
 *.tar
 *.zip
-
+!duplicator.zip
+!buildings_db.zip
 /uploads/
