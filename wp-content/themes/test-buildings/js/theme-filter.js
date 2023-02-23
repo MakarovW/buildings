@@ -180,7 +180,8 @@ $(function(){
             $(window).on('popstate', this.refreshPageState);
         }
     }
-
+    
+    //global for debug
     $newThemeFilter1 = new themeFilter();
   
 });
