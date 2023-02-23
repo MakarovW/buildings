@@ -321,10 +321,19 @@ function building_query_modify( $query ) {
             }
             if( $deadline_type == 'this-year' ) {
                 $new_meta_query = array(
-                    'key'       => $deadline_key,
-                    'value'     => [date('Y-01-01', strtotime("-1 year", time())), date('Y-01-01', strtotime("+1 year", time()))],
-                    'type'      => 'DATE',
-                    'compare'   => 'between'
+                    'relation'  => 'AND',
+                    [
+                        'key'       => $deadline_key,
+                        'value'     => [date('Y-01-01', strtotime("-1 year", time())), date('Y-01-01', strtotime("+1 year", time()))],
+                        'type'      => 'DATE',
+                        'compare'   => 'between'
+                    ],
+                    [
+                        'key'       => $deadline_key,
+                        'value'     => date('Y-m-d'),
+                        'type'      => 'DATE',
+                        'compare'   => '>'
+                    ]
                 );
             }
             if( $deadline_type == 'next-year' ) {
